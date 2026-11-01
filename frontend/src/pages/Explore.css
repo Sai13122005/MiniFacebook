@@ -1,0 +1,137 @@
+/* Message button */
+.explore-message-btn {
+    width: 100%;
+    margin-top: 10px;
+    padding: 11px 16px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
+    background: #EAF5DF;
+    color: #0D1712;
+
+    border: 1px solid #72BF24;
+    border-radius: 9px;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.explore-message-btn:hover {
+    background: #72BF24;
+    color: #ffffff;
+    border-color: #72BF24;
+    transform: translateY(-1px);
+}
+
+.explore-message-btn:active {
+    transform: scale(0.98);
+}
+
+.explore-message-btn:focus-visible {
+    outline: 3px solid rgba(114, 191, 36, 0.35);
+    outline-offset: 3px;
+}
+
+.explore-message-btn svg {
+    flex-shrink: 0;
+}
+
+.explore-user-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    margin-top: 12px;
+}
+
+.explore-user-actions .explore-follow-btn {
+    flex: 1;
+    margin-top: 0;
+}
+
+.explore-message-btn {
+    width: 42px;
+    height: 42px;
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid #72BF24;
+    border-radius: 10px;
+
+    background: #EAF5DF;
+    color: #0D1712;
+
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.explore-message-btn:hover {
+    background: #72BF24;
+    color: white;
+    transform: translateY(-2px);
+}
+
+.explore-message-btn:active {
+    transform: scale(0.96);
+}
+
+/* Message and Follow button alignment */
+.explore-user-card .explore-user-actions {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    margin-top: 12px;
+}
+
+.explore-user-card .explore-user-actions .explore-follow-btn {
+    flex: 1;
+    width: auto;
+    min-width: 0;
+    margin: 0;
+}
+
+.explore-user-card .explore-user-actions .explore-message-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 42px;
+    height: 42px;
+    min-width: 42px;
+    padding: 0;
+    margin: 0;
+
+    flex-shrink: 0;
+
+    background-color: #EAF5DF;
+    color: #0D1712;
+
+    border: 1px solid #245A81;
+    border-radius: 10px;
+
+    cursor: pointer;
+    transition: background-color 0.2s ease,
+        color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.explore-user-card .explore-user-actions .explore-message-btn:hover {
+    background-color: #245A81;
+    color: #ffffff;
+    transform: translateY(-2px);
+}
+
+.explore-user-card .explore-user-actions .explore-message-btn:active {
+    transform: scale(0.96);
+}

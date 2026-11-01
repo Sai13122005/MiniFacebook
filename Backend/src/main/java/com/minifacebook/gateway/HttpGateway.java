@@ -35,7 +35,9 @@ public class HttpGateway {
 
             server.setExecutor(
                     java.util.concurrent.Executors.newFixedThreadPool(10));
+            MessageWebSocketServer webSocketServer = new MessageWebSocketServer(8081);
 
+            webSocketServer.start();
             server.start();
 
             System.out.println("MiniFacebook HTTP Gateway started!");
@@ -104,8 +106,7 @@ public class HttpGateway {
 
             System.out.println("TCP Response: " + response);
 
-            byte[] responseBytes =
-                    mapper.writeValueAsBytes(response);
+            byte[] responseBytes = mapper.writeValueAsBytes(response);
 
             exchange.sendResponseHeaders(
                     200, responseBytes.length);

@@ -13,7 +13,7 @@ import java.util.List;
 import com.minifacebook.models.Comment;
 import com.minifacebook.models.Message;
 import com.minifacebook.models.Notification;
-
+import com.minifacebook.models.Message;
 public class JsonStorage {
 
     private static final ObjectMapper mapper = new ObjectMapper();
@@ -24,7 +24,7 @@ public class JsonStorage {
     private static final Path COMMENTS_FILE = Path.of("..", "data", "comments.json");
     private static final Path NOTIFICATIONS_FILE = Path.of("..", "data", "notifications.json");
     private static final Path MESSAGES_FILE = Path.of("..", "data", "messages.json");
-
+    
     public synchronized List<Message> loadMessages()
             throws IOException {
 

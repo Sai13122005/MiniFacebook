@@ -1,5 +1,7 @@
+com\minifacebook\storage\JsonStorage$5.class
 com\minifacebook\security\PasswordUtil.class
 com\minifacebook\storage\JsonStorage.class
+com\minifacebook\gateway\MessageWebSocketServer.class
 com\minifacebook\services\AuthService.class
 com\minifacebook\models\Post.class
 com\minifacebook\models\Comment.class
@@ -13,7 +15,9 @@ com\minifacebook\protocol\MessageProtocol.class
 com\minifacebook\storage\JsonStorage$2.class
 com\minifacebook\models\User.class
 com\minifacebook\services\NotificationService.class
+com\minifacebook\services\MessageService.class
 com\minifacebook\storage\JsonStorage$3.class
+com\minifacebook\models\Message.class
 com\minifacebook\server\MainServer.class
 com\minifacebook\gateway\HttpGateway.class
 com\minifacebook\services\CommentService.class

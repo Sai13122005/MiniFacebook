@@ -114,6 +114,19 @@ public class UserService {
         storage.saveUsers(users);
     }
 
+    // Check whether two users follow each other.
+    public synchronized boolean areMutualConnections(
+            String userId1, String userId2) throws IOException {
+
+        List<User> users = storage.loadUsers();
+
+        User user1 = findUser(users, userId1);
+        User user2 = findUser(users, userId2);
+
+        return user1.getFollowing().contains(userId2)
+                && user2.getFollowing().contains(userId1);
+    }
+
     private User findUser(List<User> users, String userId) {
 
         for (User user : users) {

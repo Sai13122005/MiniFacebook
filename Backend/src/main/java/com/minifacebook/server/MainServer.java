@@ -1,6 +1,8 @@
 
 package com.minifacebook.server;
 
+import com.minifacebook.models.Message;
+import com.minifacebook.services.MessageService;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -30,7 +32,7 @@ public class MainServer {
     private static final ExecutorService threadPool = Executors.newFixedThreadPool(10);
 
     private static final ObjectMapper mapper = new ObjectMapper();
-
+    private static final MessageService messageService = new MessageService(new JsonStorage());
     private static final AuthService authService = new AuthService(new JsonStorage());
     private static final CommentService commentService = new CommentService(new JsonStorage());
     private static final UserService userService = new UserService(new JsonStorage());
@@ -170,6 +172,8 @@ public class MainServer {
 
                     var usersArray = response.putArray("users");
 
+                    User currentUser = userService.getUserById(currentUserId);
+
                     for (User user : users) {
 
                         ObjectNode userData = usersArray.addObject();
@@ -180,14 +184,19 @@ public class MainServer {
                         userData.put("followersCount", user.getFollowers().size());
                         userData.put("followingCount", user.getFollowing().size());
 
+                        boolean isFollowing = currentUser.getFollowing().contains(user.getUserId());
+
+                        boolean isFollowedBy = currentUser.getFollowers().contains(user.getUserId());
+
+                        userData.put("isFollowing", isFollowing);
+
                         userData.put(
-                                "isFollowing",
-                                userService.getUserById(currentUserId)
-                                        .getFollowing()
-                                        .contains(user.getUserId()));
+                                "isMutualConnection",
+                                isFollowing && isFollowedBy);
                     }
 
                     response.put("status", "SUCCESS");
+
                     break;
                 }
 
@@ -700,6 +709,136 @@ public class MainServer {
                     response.put("userId", userId);
                     break;
                 }
+
+                case "SEND_MESSAGE": {
+
+                    String token = request.path("sessionToken").asText();
+                    String senderId = sessions.get(token);
+
+                    if (senderId == null) {
+                        throw new IllegalArgumentException("Please login first");
+                    }
+
+                    String receiverId = request.path("receiverId").asText();
+                    String content = request.path("content").asText();
+
+                    // Verify that the receiver exists
+                    userService.getUserById(receiverId);
+
+                    Message message = messageService.sendMessage(
+                            senderId,
+                            receiverId,
+                            content);
+
+                    response.put("status", "SUCCESS");
+                    response.put("message", "Message sent successfully");
+
+                    ObjectNode messageData = response.putObject("messageData");
+
+                    messageData.put("messageId", message.getMessageId());
+                    messageData.put("senderId", message.getSenderId());
+                    messageData.put("receiverId", message.getReceiverId());
+                    messageData.put("content", message.getContent());
+                    messageData.put("createdAt", message.getCreatedAt());
+                    messageData.put("read", message.isRead());
+
+                    break;
+                }
+
+                case "GET_CONVERSATIONS": {
+
+                    String token = request.path("sessionToken").asText();
+                    String currentUserId = sessions.get(token);
+
+                    if (currentUserId == null) {
+                        throw new IllegalArgumentException("Please login first");
+                    }
+
+                    var userIds = messageService.getConversationUserIds(currentUserId);
+
+                    var conversations = response.putArray("conversations");
+
+                    for (String otherUserId : userIds) {
+
+                        User otherUser = userService.getUserById(otherUserId);
+
+                        ObjectNode item = conversations.addObject();
+
+                        item.put("userId", otherUser.getUserId());
+                        item.put("username", otherUser.getUsername());
+
+                        int unreadCount = messageService.getUnreadCount(
+                                currentUserId,
+                                otherUserId);
+
+                        item.put("unreadCount", unreadCount);
+                    }
+
+                    response.put("status", "SUCCESS");
+
+                    break;
+                }
+
+                case "GET_CONVERSATION": {
+
+                    String token = request.path("sessionToken").asText();
+                    String currentUserId = sessions.get(token);
+
+                    if (currentUserId == null) {
+                        throw new IllegalArgumentException("Please login first");
+                    }
+
+                    String otherUserId = request.path("otherUserId").asText();
+
+                    // Verify that the other user exists
+                    userService.getUserById(otherUserId);
+
+                    var messages = messageService.getConversation(
+                            currentUserId,
+                            otherUserId);
+
+                    var messagesArray = response.putArray("messages");
+
+                    for (Message message : messages) {
+
+                        ObjectNode item = messagesArray.addObject();
+
+                        item.put("messageId", message.getMessageId());
+                        item.put("senderId", message.getSenderId());
+                        item.put("receiverId", message.getReceiverId());
+                        item.put("content", message.getContent());
+                        item.put("createdAt", message.getCreatedAt());
+                        item.put("read", message.isRead());
+                    }
+
+                    response.put("status", "SUCCESS");
+
+                    break;
+                }
+
+                case "MARK_MESSAGE_READ": {
+
+                    String token = request.path("sessionToken").asText();
+                    String currentUserId = sessions.get(token);
+
+                    if (currentUserId == null) {
+                        throw new IllegalArgumentException("Please login first");
+                    }
+
+                    String otherUserId = request.path("otherUserId").asText();
+
+                    userService.getUserById(otherUserId);
+
+                    messageService.markMessagesAsRead(
+                            currentUserId,
+                            otherUserId);
+
+                    response.put("status", "SUCCESS");
+                    response.put("message", "Messages marked as read");
+
+                    break;
+                }
+
                 case "EXIT": {
 
                     response.put("status", "SUCCESS");

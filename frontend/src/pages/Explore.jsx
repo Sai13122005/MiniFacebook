@@ -1,12 +1,32 @@
 
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { Search, Users, UserPlus, UserCheck, RefreshCw } from "lucide-react";
+
+import {
+    Search,
+    Users,
+    UserPlus,
+    UserCheck,
+    RefreshCw,
+    Send
+} from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import { sendRequest } from "../services/api";
 import { useAuth } from "../context/AuthContext";
-
+import "./Explore.css";
 export default function Explore() {
     const { user, sessionToken } = useAuth();
+    const navigate = useNavigate();
 
+    const openConversation = (person) => {
+        navigate("/messages", {
+            state: {
+                selectedUser: {
+                    userId: person.userId,
+                    username: person.username,
+                },
+            },
+        });
+    };
     const [users, setUsers] = useState([]);
     const [search, setSearch] = useState("");
     const [loading, setLoading] = useState(true);
@@ -70,21 +90,7 @@ export default function Explore() {
                 throw new Error(response.message || "Follow action failed");
             }
 
-            setUsers((previous) =>
-                previous.map((item) =>
-                    item.userId === targetUserId
-                        ? {
-                              ...item,
-                              isFollowing: !targetUser.isFollowing,
-                              followersCount: Math.max(
-                                  0,
-                                  (item.followersCount || 0) +
-                                      (targetUser.isFollowing ? -1 : 1)
-                              ),
-                          }
-                        : item
-                )
-            );
+            await loadUsers();
         } catch (err) {
             setError(err.message || "Unable to update follow status");
         } finally {
@@ -172,27 +178,40 @@ export default function Explore() {
                                 </div>
                             </div>
 
-                            <button
-                                className={
-                                    person.isFollowing
-                                        ? "explore-follow-btn following"
-                                        : "explore-follow-btn"
-                                }
-                                onClick={() => toggleFollow(person)}
-                                disabled={!!updatingUsers[person.userId]}
-                            >
-                                {person.isFollowing ? (
-                                    <UserCheck size={17} />
-                                ) : (
-                                    <UserPlus size={17} />
-                                )}
+                            <div className="explore-user-actions">
+                                <button
+                                    className={
+                                        person.isFollowing
+                                            ? "explore-follow-btn following"
+                                            : "explore-follow-btn"
+                                    }
+                                    onClick={() => toggleFollow(person)}
+                                    disabled={!!updatingUsers[person.userId]}
+                                >
+                                    {person.isFollowing ? (
+                                        <UserCheck size={17} />
+                                    ) : (
+                                        <UserPlus size={17} />
+                                    )}
 
-                                {updatingUsers[person.userId]
-                                    ? "Please wait..."
-                                    : person.isFollowing
-                                      ? "Following"
-                                      : "Follow"}
-                            </button>
+                                    {updatingUsers[person.userId]
+                                        ? "Please wait..."
+                                        : person.isFollowing
+                                            ? "Following"
+                                            : "Follow"}
+                                </button>
+
+                                {person.isMutualConnection && (
+                                    <button
+                                        className="explore-message-btn"
+                                        onClick={() => openConversation(person)}
+                                        title={`Message ${person.username}`}
+                                        aria-label={`Message ${person.username}`}
+                                    >
+                                        <Send size={18} />
+                                    </button>
+                                )}
+                            </div>
                         </article>
                     ))}
                 </section>

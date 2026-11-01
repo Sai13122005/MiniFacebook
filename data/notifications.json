@@ -232,4 +232,130 @@
   "message" : "rahul started following you",
   "createdAt" : "2026-11-01T16:46:55.773905500Z",
   "read" : true
+}, {
+  "notificationId" : "be9eadaa-9bda-4a2a-9d47-f55ee768d1fe",
+  "receiverId" : "21f306a4-6db0-41a6-b677-4c8705a16aca",
+  "actorId" : "231e9e7d-c0bf-4e76-9b27-614449e418d2",
+  "type" : "FOLLOW",
+  "referenceId" : "231e9e7d-c0bf-4e76-9b27-614449e418d2",
+  "message" : "rahul started following you",
+  "createdAt" : "2026-11-01T17:54:08.975682Z",
+  "read" : false
+}, {
+  "notificationId" : "493f63f6-5367-4e46-8221-4fa6bfc0ce86",
+  "receiverId" : "82a8083f-402e-4461-9fc7-97c2fca35fdc",
+  "actorId" : "231e9e7d-c0bf-4e76-9b27-614449e418d2",
+  "type" : "FOLLOW",
+  "referenceId" : "231e9e7d-c0bf-4e76-9b27-614449e418d2",
+  "message" : "rahul started following you",
+  "createdAt" : "2026-11-01T17:54:12.441207Z",
+  "read" : false
+}, {
+  "notificationId" : "25409ffe-42ba-467e-b40b-b8c9e95d7134",
+  "receiverId" : "82a8083f-402e-4461-9fc7-97c2fca35fdc",
+  "actorId" : "21f306a4-6db0-41a6-b677-4c8705a16aca",
+  "type" : "FOLLOW",
+  "referenceId" : "21f306a4-6db0-41a6-b677-4c8705a16aca",
+  "message" : "Saikrishna_13 started following you",
+  "createdAt" : "2026-11-01T18:05:00.067915700Z",
+  "read" : false
+}, {
+  "notificationId" : "bf35c4f1-4cf5-45df-89c2-0be929e1e91d",
+  "receiverId" : "82a8083f-402e-4461-9fc7-97c2fca35fdc",
+  "actorId" : "21f306a4-6db0-41a6-b677-4c8705a16aca",
+  "type" : "FOLLOW",
+  "referenceId" : "21f306a4-6db0-41a6-b677-4c8705a16aca",
+  "message" : "Saikrishna_13 started following you",
+  "createdAt" : "2026-11-01T18:21:15.859798600Z",
+  "read" : false
+}, {
+  "notificationId" : "315131fc-dc7b-4b22-9586-c180fcca07c0",
+  "receiverId" : "231e9e7d-c0bf-4e76-9b27-614449e418d2",
+  "actorId" : "21f306a4-6db0-41a6-b677-4c8705a16aca",
+  "type" : "FOLLOW",
+  "referenceId" : "21f306a4-6db0-41a6-b677-4c8705a16aca",
+  "message" : "Saikrishna_13 started following you",
+  "createdAt" : "2026-11-01T19:16:49.135427500Z",
+  "read" : false
+}, {
+  "notificationId" : "d3099c9c-bdf2-4452-892a-aae4468cf4bf",
+  "receiverId" : "231e9e7d-c0bf-4e76-9b27-614449e418d2",
+  "actorId" : "21f306a4-6db0-41a6-b677-4c8705a16aca",
+  "type" : "FOLLOW",
+  "referenceId" : "21f306a4-6db0-41a6-b677-4c8705a16aca",
+  "message" : "Saikrishna_13 started following you",
+  "createdAt" : "2026-11-01T19:16:56.857433100Z",
+  "read" : false
+}, {
+  "notificationId" : "76b56811-e9bc-45e0-b9b7-ad16c64e20f7",
+  "receiverId" : "231e9e7d-c0bf-4e76-9b27-614449e418d2",
+  "actorId" : "21f306a4-6db0-41a6-b677-4c8705a16aca",
+  "type" : "FOLLOW",
+  "referenceId" : "21f306a4-6db0-41a6-b677-4c8705a16aca",
+  "message" : "Saikrishna_13 started following you",
+  "createdAt" : "2026-11-01T19:17:07.112749300Z",
+  "read" : false
+}, {
+  "notificationId" : "9f312ec6-6064-455f-8584-e4114789a206",
+  "receiverId" : "231e9e7d-c0bf-4e76-9b27-614449e418d2",
+  "actorId" : "21f306a4-6db0-41a6-b677-4c8705a16aca",
+  "type" : "FOLLOW",
+  "referenceId" : "21f306a4-6db0-41a6-b677-4c8705a16aca",
+  "message" : "Saikrishna_13 started following you",
+  "createdAt" : "2026-11-01T19:18:57.748498500Z",
+  "read" : false
+}, {
+  "notificationId" : "0e7bf671-3659-4b0a-b984-fa2dfcd56467",
+  "receiverId" : "231e9e7d-c0bf-4e76-9b27-614449e418d2",
+  "actorId" : "21f306a4-6db0-41a6-b677-4c8705a16aca",
+  "type" : "FOLLOW",
+  "referenceId" : "21f306a4-6db0-41a6-b677-4c8705a16aca",
+  "message" : "Saikrishna_13 started following you",
+  "createdAt" : "2026-11-01T19:19:00.192302400Z",
+  "read" : false
+}, {
+  "notificationId" : "7d7d4b38-9fac-45c6-93bb-e6036e69c88d",
+  "receiverId" : "231e9e7d-c0bf-4e76-9b27-614449e418d2",
+  "actorId" : "21f306a4-6db0-41a6-b677-4c8705a16aca",
+  "type" : "FOLLOW",
+  "referenceId" : "21f306a4-6db0-41a6-b677-4c8705a16aca",
+  "message" : "Saikrishna_13 started following you",
+  "createdAt" : "2026-11-01T19:19:03.298391900Z",
+  "read" : false
+}, {
+  "notificationId" : "9b5e85e3-a5c2-4f10-a163-5801923ef28d",
+  "receiverId" : "231e9e7d-c0bf-4e76-9b27-614449e418d2",
+  "actorId" : "21f306a4-6db0-41a6-b677-4c8705a16aca",
+  "type" : "FOLLOW",
+  "referenceId" : "21f306a4-6db0-41a6-b677-4c8705a16aca",
+  "message" : "Saikrishna_13 started following you",
+  "createdAt" : "2026-11-01T19:19:05.894244300Z",
+  "read" : false
+}, {
+  "notificationId" : "45ac1f21-f661-447b-9db1-d0714dac7d92",
+  "receiverId" : "82a8083f-402e-4461-9fc7-97c2fca35fdc",
+  "actorId" : "21f306a4-6db0-41a6-b677-4c8705a16aca",
+  "type" : "FOLLOW",
+  "referenceId" : "21f306a4-6db0-41a6-b677-4c8705a16aca",
+  "message" : "Saikrishna_13 started following you",
+  "createdAt" : "2026-11-01T19:19:10.912217600Z",
+  "read" : false
+}, {
+  "notificationId" : "8c36636d-2153-4037-a832-f4c130fc3683",
+  "receiverId" : "82a8083f-402e-4461-9fc7-97c2fca35fdc",
+  "actorId" : "21f306a4-6db0-41a6-b677-4c8705a16aca",
+  "type" : "FOLLOW",
+  "referenceId" : "21f306a4-6db0-41a6-b677-4c8705a16aca",
+  "message" : "Saikrishna_13 started following you",
+  "createdAt" : "2026-11-01T19:22:18.245701400Z",
+  "read" : false
+}, {
+  "notificationId" : "ba4136cd-4490-43e2-a644-9e0e4aa8b99c",
+  "receiverId" : "82a8083f-402e-4461-9fc7-97c2fca35fdc",
+  "actorId" : "21f306a4-6db0-41a6-b677-4c8705a16aca",
+  "type" : "FOLLOW",
+  "referenceId" : "21f306a4-6db0-41a6-b677-4c8705a16aca",
+  "message" : "Saikrishna_13 started following you",
+  "createdAt" : "2026-11-01T19:24:11.523308600Z",
+  "read" : false
 } ]

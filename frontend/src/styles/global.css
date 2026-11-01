@@ -2927,3 +2927,24 @@ button {
         display: none;
     }
 }
+.navbar-icon-wrapper {
+    position: relative;
+    display: inline-flex;
+}
+
+.navbar-message-badge {
+    position: absolute;
+    top: -8px;
+    right: -10px;
+    min-width: 17px;
+    height: 17px;
+    padding: 0 4px;
+    border-radius: 20px;
+    background: #d32f2f;
+    color: white;
+    font-size: 10px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

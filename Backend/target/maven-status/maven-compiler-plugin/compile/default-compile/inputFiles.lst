@@ -1,6 +1,8 @@
 D:\DC_MINI_Project\Backend\src\main\java\com\minifacebook\client\TestClient.java
 D:\DC_MINI_Project\Backend\src\main\java\com\minifacebook\gateway\HttpGateway.java
+D:\DC_MINI_Project\Backend\src\main\java\com\minifacebook\gateway\MessageWebSocketServer.java
 D:\DC_MINI_Project\Backend\src\main\java\com\minifacebook\models\Comment.java
+D:\DC_MINI_Project\Backend\src\main\java\com\minifacebook\models\Message.java
 D:\DC_MINI_Project\Backend\src\main\java\com\minifacebook\models\Notification.java
 D:\DC_MINI_Project\Backend\src\main\java\com\minifacebook\models\Post.java
 D:\DC_MINI_Project\Backend\src\main\java\com\minifacebook\models\User.java
@@ -9,6 +11,7 @@ D:\DC_MINI_Project\Backend\src\main\java\com\minifacebook\security\PasswordUtil.
 D:\DC_MINI_Project\Backend\src\main\java\com\minifacebook\server\MainServer.java
 D:\DC_MINI_Project\Backend\src\main\java\com\minifacebook\services\AuthService.java
 D:\DC_MINI_Project\Backend\src\main\java\com\minifacebook\services\CommentService.java
+D:\DC_MINI_Project\Backend\src\main\java\com\minifacebook\services\MessageService.java
 D:\DC_MINI_Project\Backend\src\main\java\com\minifacebook\services\NotificationService.java
 D:\DC_MINI_Project\Backend\src\main\java\com\minifacebook\services\PostService.java
 D:\DC_MINI_Project\Backend\src\main\java\com\minifacebook\services\UserService.java
