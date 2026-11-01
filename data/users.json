@@ -1,0 +1,25 @@
+[ {
+  "userId" : "82a8083f-402e-4461-9fc7-97c2fca35fdc",
+  "username" : "saikrishna",
+  "passwordHash" : "$2a$12$XlFfpZzHtw7kGrUZwVEkJuX29POvZUbrwc8zXeYjUEJ.SIUrbfOU2",
+  "bio" : "this is Saikrishna",
+  "createdAt" : "2026-11-01T10:36:10.154098100Z",
+  "followers" : [ "231e9e7d-c0bf-4e76-9b27-614449e418d2", "21f306a4-6db0-41a6-b677-4c8705a16aca" ],
+  "following" : [ "231e9e7d-c0bf-4e76-9b27-614449e418d2", "21f306a4-6db0-41a6-b677-4c8705a16aca" ]
+}, {
+  "userId" : "231e9e7d-c0bf-4e76-9b27-614449e418d2",
+  "username" : "rahul",
+  "passwordHash" : "$2a$12$QvYheDUgP0UjRU094KxWcewr9q4QbYQJ6ayDp83Uh2Wr.KGagLXD.",
+  "bio" : "",
+  "createdAt" : "2026-11-01T10:36:53.528899300Z",
+  "followers" : [ "21f306a4-6db0-41a6-b677-4c8705a16aca", "82a8083f-402e-4461-9fc7-97c2fca35fdc" ],
+  "following" : [ "82a8083f-402e-4461-9fc7-97c2fca35fdc", "21f306a4-6db0-41a6-b677-4c8705a16aca" ]
+}, {
+  "userId" : "21f306a4-6db0-41a6-b677-4c8705a16aca",
+  "username" : "Saikrishna_13",
+  "passwordHash" : "$2a$12$Krz7cIGbKOZNd9PWpz0fzeI7dKPoB/w/QBsOFr/mNZLjClrGGbN.2",
+  "bio" : "",
+  "createdAt" : "2026-11-01T16:39:49.255708300Z",
+  "followers" : [ "82a8083f-402e-4461-9fc7-97c2fca35fdc", "231e9e7d-c0bf-4e76-9b27-614449e418d2" ],
+  "following" : [ "231e9e7d-c0bf-4e76-9b27-614449e418d2", "82a8083f-402e-4461-9fc7-97c2fca35fdc" ]
+} ]

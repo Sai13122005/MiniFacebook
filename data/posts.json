@@ -1,0 +1,13 @@
+[ {
+  "postId" : "e8d8c860-97bf-4984-9ac2-f5abc60fb700",
+  "authorId" : "231e9e7d-c0bf-4e76-9b27-614449e418d2",
+  "content" : "this is my first post",
+  "createdAt" : "2026-11-01T12:56:23.017387200Z",
+  "likes" : [ "231e9e7d-c0bf-4e76-9b27-614449e418d2", "82a8083f-402e-4461-9fc7-97c2fca35fdc", "21f306a4-6db0-41a6-b677-4c8705a16aca" ]
+}, {
+  "postId" : "0fa58d6f-b0c0-41c9-82a4-41b853401396",
+  "authorId" : "82a8083f-402e-4461-9fc7-97c2fca35fdc",
+  "content" : "this is my second Post.",
+  "createdAt" : "2026-11-01T16:33:20.901196300Z",
+  "likes" : [ "231e9e7d-c0bf-4e76-9b27-614449e418d2", "21f306a4-6db0-41a6-b677-4c8705a16aca" ]
+} ]

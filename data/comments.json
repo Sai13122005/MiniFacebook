@@ -1,0 +1,13 @@
+[ {
+  "commentId" : "e29d9b9c-03c0-4c63-a1bb-05480b1ca0fd",
+  "postId" : "e8d8c860-97bf-4984-9ac2-f5abc60fb700",
+  "authorId" : "82a8083f-402e-4461-9fc7-97c2fca35fdc",
+  "content" : "super",
+  "createdAt" : "2026-11-01T13:24:03.807376800Z"
+}, {
+  "commentId" : "59c94105-710b-4aeb-80bf-f52b04bfff58",
+  "postId" : "0fa58d6f-b0c0-41c9-82a4-41b853401396",
+  "authorId" : "82a8083f-402e-4461-9fc7-97c2fca35fdc",
+  "content" : "own comment",
+  "createdAt" : "2026-11-01T16:34:02.516769400Z"
+} ]

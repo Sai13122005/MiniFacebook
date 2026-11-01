@@ -1,0 +1,235 @@
+[ {
+  "notificationId" : "ff438cde-606c-4200-a8cb-adf29fd9be3e",
+  "receiverId" : "231e9e7d-c0bf-4e76-9b27-614449e418d2",
+  "actorId" : "82a8083f-402e-4461-9fc7-97c2fca35fdc",
+  "type" : "LIKE",
+  "referenceId" : "e8d8c860-97bf-4984-9ac2-f5abc60fb700",
+  "message" : "saikrishna liked your post",
+  "createdAt" : "2026-11-01T12:56:56.102827200Z",
+  "read" : false
+}, {
+  "notificationId" : "24c9f665-6c74-4034-8f71-4bc3772a6e54",
+  "receiverId" : "82a8083f-402e-4461-9fc7-97c2fca35fdc",
+  "actorId" : "231e9e7d-c0bf-4e76-9b27-614449e418d2",
+  "type" : "LIKE",
+  "referenceId" : "a9ec7f1d-48e7-4322-8175-72f862177fbe",
+  "message" : "rahul liked your post",
+  "createdAt" : "2026-11-01T12:57:00.774923500Z",
+  "read" : true
+}, {
+  "notificationId" : "694619d5-a313-47ea-9de9-bb9e2b851ecf",
+  "receiverId" : "82a8083f-402e-4461-9fc7-97c2fca35fdc",
+  "actorId" : "231e9e7d-c0bf-4e76-9b27-614449e418d2",
+  "type" : "COMMENT",
+  "referenceId" : "a9ec7f1d-48e7-4322-8175-72f862177fbe",
+  "message" : "rahul commented on your post",
+  "createdAt" : "2026-11-01T13:04:53.013417600Z",
+  "read" : true
+}, {
+  "notificationId" : "281ef054-c1b0-41ce-81d4-997e2b64ed30",
+  "receiverId" : "231e9e7d-c0bf-4e76-9b27-614449e418d2",
+  "actorId" : "82a8083f-402e-4461-9fc7-97c2fca35fdc",
+  "type" : "COMMENT",
+  "referenceId" : "e8d8c860-97bf-4984-9ac2-f5abc60fb700",
+  "message" : "saikrishna commented on your post",
+  "createdAt" : "2026-11-01T13:05:31.808630100Z",
+  "read" : false
+}, {
+  "notificationId" : "1cd18823-e5c8-48e9-90c9-6fa749869ca8",
+  "receiverId" : "231e9e7d-c0bf-4e76-9b27-614449e418d2",
+  "actorId" : "82a8083f-402e-4461-9fc7-97c2fca35fdc",
+  "type" : "COMMENT",
+  "referenceId" : "e8d8c860-97bf-4984-9ac2-f5abc60fb700",
+  "message" : "saikrishna commented on your post",
+  "createdAt" : "2026-11-01T13:07:19.462857200Z",
+  "read" : false
+}, {
+  "notificationId" : "06b10ea2-f59b-482c-af6d-597c77f66ec4",
+  "receiverId" : "231e9e7d-c0bf-4e76-9b27-614449e418d2",
+  "actorId" : "82a8083f-402e-4461-9fc7-97c2fca35fdc",
+  "type" : "COMMENT",
+  "referenceId" : "e8d8c860-97bf-4984-9ac2-f5abc60fb700",
+  "message" : "saikrishna commented on your post",
+  "createdAt" : "2026-11-01T13:07:35.999268700Z",
+  "read" : false
+}, {
+  "notificationId" : "3ca81863-6d32-42f2-b015-5fe2858e1564",
+  "receiverId" : "82a8083f-402e-4461-9fc7-97c2fca35fdc",
+  "actorId" : "231e9e7d-c0bf-4e76-9b27-614449e418d2",
+  "type" : "COMMENT",
+  "referenceId" : "a9ec7f1d-48e7-4322-8175-72f862177fbe",
+  "message" : "rahul commented on your post",
+  "createdAt" : "2026-11-01T13:08:34.725674500Z",
+  "read" : true
+}, {
+  "notificationId" : "4aba1576-4345-4548-978d-84af34e3865a",
+  "receiverId" : "82a8083f-402e-4461-9fc7-97c2fca35fdc",
+  "actorId" : "231e9e7d-c0bf-4e76-9b27-614449e418d2",
+  "type" : "COMMENT",
+  "referenceId" : "a9ec7f1d-48e7-4322-8175-72f862177fbe",
+  "message" : "rahul commented on your post",
+  "createdAt" : "2026-11-01T13:09:40.463859700Z",
+  "read" : false
+}, {
+  "notificationId" : "65bfebc3-7432-4a60-bdca-bf6c580afb0e",
+  "receiverId" : "231e9e7d-c0bf-4e76-9b27-614449e418d2",
+  "actorId" : "82a8083f-402e-4461-9fc7-97c2fca35fdc",
+  "type" : "COMMENT",
+  "referenceId" : "e8d8c860-97bf-4984-9ac2-f5abc60fb700",
+  "message" : "saikrishna commented on your post",
+  "createdAt" : "2026-11-01T13:24:04.107320Z",
+  "read" : false
+}, {
+  "notificationId" : "3a2c3b31-7a3e-4f05-ba4f-65535a4e78e5",
+  "receiverId" : "82a8083f-402e-4461-9fc7-97c2fca35fdc",
+  "actorId" : "231e9e7d-c0bf-4e76-9b27-614449e418d2",
+  "type" : "COMMENT",
+  "referenceId" : "a9ec7f1d-48e7-4322-8175-72f862177fbe",
+  "message" : "rahul commented on your post",
+  "createdAt" : "2026-11-01T13:38:40.841858500Z",
+  "read" : false
+}, {
+  "notificationId" : "8bbf672b-d471-44ed-aa91-67c42bf67357",
+  "receiverId" : "82a8083f-402e-4461-9fc7-97c2fca35fdc",
+  "actorId" : "231e9e7d-c0bf-4e76-9b27-614449e418d2",
+  "type" : "LIKE",
+  "referenceId" : "45fedcc8-1e0e-437e-9b64-0db852da5f9d",
+  "message" : "rahul liked your post",
+  "createdAt" : "2026-11-01T13:47:19.682295200Z",
+  "read" : false
+}, {
+  "notificationId" : "60dfe570-6d8b-4b12-9e37-b1d6dc33418e",
+  "receiverId" : "82a8083f-402e-4461-9fc7-97c2fca35fdc",
+  "actorId" : "231e9e7d-c0bf-4e76-9b27-614449e418d2",
+  "type" : "LIKE",
+  "referenceId" : "a9ec7f1d-48e7-4322-8175-72f862177fbe",
+  "message" : "rahul liked your post",
+  "createdAt" : "2026-11-01T13:47:23.589740900Z",
+  "read" : false
+}, {
+  "notificationId" : "898b0616-a172-4a3f-90a6-760ad5b1259a",
+  "receiverId" : "82a8083f-402e-4461-9fc7-97c2fca35fdc",
+  "actorId" : "231e9e7d-c0bf-4e76-9b27-614449e418d2",
+  "type" : "LIKE",
+  "referenceId" : "45fedcc8-1e0e-437e-9b64-0db852da5f9d",
+  "message" : "rahul liked your post",
+  "createdAt" : "2026-11-01T13:47:47.911298700Z",
+  "read" : false
+}, {
+  "notificationId" : "52b07417-f497-47fa-8790-5c5a84ada8ec",
+  "receiverId" : "82a8083f-402e-4461-9fc7-97c2fca35fdc",
+  "actorId" : "231e9e7d-c0bf-4e76-9b27-614449e418d2",
+  "type" : "LIKE",
+  "referenceId" : "a9ec7f1d-48e7-4322-8175-72f862177fbe",
+  "message" : "rahul liked your post",
+  "createdAt" : "2026-11-01T13:47:49.716089500Z",
+  "read" : false
+}, {
+  "notificationId" : "a38c0504-cee2-4663-91ba-72df5a754d55",
+  "receiverId" : "82a8083f-402e-4461-9fc7-97c2fca35fdc",
+  "actorId" : "231e9e7d-c0bf-4e76-9b27-614449e418d2",
+  "type" : "LIKE",
+  "referenceId" : "440e8206-acdf-4728-8112-5423c65dbe9e",
+  "message" : "rahul liked your post",
+  "createdAt" : "2026-11-01T16:16:11.671626400Z",
+  "read" : false
+}, {
+  "notificationId" : "b148e5b0-8320-4b8e-a2bd-491e2125ec55",
+  "receiverId" : "82a8083f-402e-4461-9fc7-97c2fca35fdc",
+  "actorId" : "231e9e7d-c0bf-4e76-9b27-614449e418d2",
+  "type" : "COMMENT",
+  "referenceId" : "440e8206-acdf-4728-8112-5423c65dbe9e",
+  "message" : "rahul commented on your post",
+  "createdAt" : "2026-11-01T16:17:18.006717200Z",
+  "read" : true
+}, {
+  "notificationId" : "fa036ad6-d844-43e3-85d7-4d544605df3c",
+  "receiverId" : "231e9e7d-c0bf-4e76-9b27-614449e418d2",
+  "actorId" : "82a8083f-402e-4461-9fc7-97c2fca35fdc",
+  "type" : "LIKE",
+  "referenceId" : "e8d8c860-97bf-4984-9ac2-f5abc60fb700",
+  "message" : "saikrishna liked your post",
+  "createdAt" : "2026-11-01T16:19:14.326481200Z",
+  "read" : false
+}, {
+  "notificationId" : "7ff71857-3535-45b8-b670-3586aed57393",
+  "receiverId" : "82a8083f-402e-4461-9fc7-97c2fca35fdc",
+  "actorId" : "231e9e7d-c0bf-4e76-9b27-614449e418d2",
+  "type" : "LIKE",
+  "referenceId" : "0fa58d6f-b0c0-41c9-82a4-41b853401396",
+  "message" : "rahul liked your post",
+  "createdAt" : "2026-11-01T16:33:34.606079Z",
+  "read" : true
+}, {
+  "notificationId" : "d1391009-ecb6-477d-a657-f5341130d079",
+  "receiverId" : "231e9e7d-c0bf-4e76-9b27-614449e418d2",
+  "actorId" : "82a8083f-402e-4461-9fc7-97c2fca35fdc",
+  "type" : "FOLLOW",
+  "referenceId" : "82a8083f-402e-4461-9fc7-97c2fca35fdc",
+  "message" : "saikrishna started following you",
+  "createdAt" : "2026-11-01T16:37:41.519305200Z",
+  "read" : false
+}, {
+  "notificationId" : "d6170426-bb11-4393-9e04-a2a6223868b5",
+  "receiverId" : "82a8083f-402e-4461-9fc7-97c2fca35fdc",
+  "actorId" : "231e9e7d-c0bf-4e76-9b27-614449e418d2",
+  "type" : "FOLLOW",
+  "referenceId" : "231e9e7d-c0bf-4e76-9b27-614449e418d2",
+  "message" : "rahul started following you",
+  "createdAt" : "2026-11-01T16:39:08.013599100Z",
+  "read" : true
+}, {
+  "notificationId" : "6e7155fe-1aac-4470-bdf6-5f79225879bf",
+  "receiverId" : "231e9e7d-c0bf-4e76-9b27-614449e418d2",
+  "actorId" : "21f306a4-6db0-41a6-b677-4c8705a16aca",
+  "type" : "FOLLOW",
+  "referenceId" : "21f306a4-6db0-41a6-b677-4c8705a16aca",
+  "message" : "Saikrishna_13 started following you",
+  "createdAt" : "2026-11-01T16:40:14.674229600Z",
+  "read" : false
+}, {
+  "notificationId" : "9f0d1846-54d7-4a4c-90e3-8c0520295e15",
+  "receiverId" : "82a8083f-402e-4461-9fc7-97c2fca35fdc",
+  "actorId" : "21f306a4-6db0-41a6-b677-4c8705a16aca",
+  "type" : "FOLLOW",
+  "referenceId" : "21f306a4-6db0-41a6-b677-4c8705a16aca",
+  "message" : "Saikrishna_13 started following you",
+  "createdAt" : "2026-11-01T16:40:15.703590500Z",
+  "read" : true
+}, {
+  "notificationId" : "a76d592c-968b-42e4-96cc-0052ab7cf38f",
+  "receiverId" : "21f306a4-6db0-41a6-b677-4c8705a16aca",
+  "actorId" : "82a8083f-402e-4461-9fc7-97c2fca35fdc",
+  "type" : "FOLLOW",
+  "referenceId" : "82a8083f-402e-4461-9fc7-97c2fca35fdc",
+  "message" : "saikrishna started following you",
+  "createdAt" : "2026-11-01T16:40:25.654397100Z",
+  "read" : true
+}, {
+  "notificationId" : "d0a296ba-b76d-42db-800d-4e704a23f1ac",
+  "receiverId" : "82a8083f-402e-4461-9fc7-97c2fca35fdc",
+  "actorId" : "21f306a4-6db0-41a6-b677-4c8705a16aca",
+  "type" : "LIKE",
+  "referenceId" : "0fa58d6f-b0c0-41c9-82a4-41b853401396",
+  "message" : "Saikrishna_13 liked your post",
+  "createdAt" : "2026-11-01T16:43:06.344697600Z",
+  "read" : true
+}, {
+  "notificationId" : "00b36f96-2a41-483d-99fd-c6606e5bfa37",
+  "receiverId" : "231e9e7d-c0bf-4e76-9b27-614449e418d2",
+  "actorId" : "21f306a4-6db0-41a6-b677-4c8705a16aca",
+  "type" : "LIKE",
+  "referenceId" : "e8d8c860-97bf-4984-9ac2-f5abc60fb700",
+  "message" : "Saikrishna_13 liked your post",
+  "createdAt" : "2026-11-01T16:43:10.402467600Z",
+  "read" : false
+}, {
+  "notificationId" : "e643ff26-eccc-4611-b73b-6fc58c074d82",
+  "receiverId" : "21f306a4-6db0-41a6-b677-4c8705a16aca",
+  "actorId" : "231e9e7d-c0bf-4e76-9b27-614449e418d2",
+  "type" : "FOLLOW",
+  "referenceId" : "231e9e7d-c0bf-4e76-9b27-614449e418d2",
+  "message" : "rahul started following you",
+  "createdAt" : "2026-11-01T16:46:55.773905500Z",
+  "read" : true
+} ]
