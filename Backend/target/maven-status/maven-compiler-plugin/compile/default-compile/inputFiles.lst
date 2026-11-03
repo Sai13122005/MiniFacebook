@@ -1,4 +1,10 @@
+D:\DC_MINI_Project\Backend\src\main\java\com\minifacebook\client\DatabaseConnectionTest.java
+D:\DC_MINI_Project\Backend\src\main\java\com\minifacebook\client\JsonToPostgresMigration.java
 D:\DC_MINI_Project\Backend\src\main\java\com\minifacebook\client\TestClient.java
+D:\DC_MINI_Project\Backend\src\main\java\com\minifacebook\client\UserRepositoryTest.java
+D:\DC_MINI_Project\Backend\src\main\java\com\minifacebook\config\AppConfig.java
+D:\DC_MINI_Project\Backend\src\main\java\com\minifacebook\config\DatabaseConfig.java
+D:\DC_MINI_Project\Backend\src\main\java\com\minifacebook\config\TransactionManager.java
 D:\DC_MINI_Project\Backend\src\main\java\com\minifacebook\gateway\HttpGateway.java
 D:\DC_MINI_Project\Backend\src\main\java\com\minifacebook\gateway\MessageWebSocketServer.java
 D:\DC_MINI_Project\Backend\src\main\java\com\minifacebook\models\Comment.java
@@ -7,6 +13,12 @@ D:\DC_MINI_Project\Backend\src\main\java\com\minifacebook\models\Notification.ja
 D:\DC_MINI_Project\Backend\src\main\java\com\minifacebook\models\Post.java
 D:\DC_MINI_Project\Backend\src\main\java\com\minifacebook\models\User.java
 D:\DC_MINI_Project\Backend\src\main\java\com\minifacebook\protocol\MessageProtocol.java
+D:\DC_MINI_Project\Backend\src\main\java\com\minifacebook\repositories\CommentRepository.java
+D:\DC_MINI_Project\Backend\src\main\java\com\minifacebook\repositories\MessageRepository.java
+D:\DC_MINI_Project\Backend\src\main\java\com\minifacebook\repositories\NotificationRepository.java
+D:\DC_MINI_Project\Backend\src\main\java\com\minifacebook\repositories\PostRepository.java
+D:\DC_MINI_Project\Backend\src\main\java\com\minifacebook\repositories\SessionRepository.java
+D:\DC_MINI_Project\Backend\src\main\java\com\minifacebook\repositories\UserRepository.java
 D:\DC_MINI_Project\Backend\src\main\java\com\minifacebook\security\PasswordUtil.java
 D:\DC_MINI_Project\Backend\src\main\java\com\minifacebook\server\MainServer.java
 D:\DC_MINI_Project\Backend\src\main\java\com\minifacebook\services\AuthService.java

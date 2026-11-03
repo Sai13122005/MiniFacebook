@@ -1,6 +1,7 @@
 
 package com.minifacebook.gateway;
 
+import com.minifacebook.config.AppConfig;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -18,8 +19,8 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class MessageWebSocketServer extends WebSocketServer {
 
-    private static final String TCP_HOST = "localhost";
-    private static final int TCP_PORT = 5000;
+    private static final String TCP_HOST = AppConfig.TCP_HOST;
+    private static final int TCP_PORT = AppConfig.TCP_PORT;
 
     private static final ObjectMapper mapper = new ObjectMapper();
 
@@ -37,9 +38,75 @@ public class MessageWebSocketServer extends WebSocketServer {
 
     @Override
     public void onOpen(WebSocket connection, ClientHandshake handshake) {
-        System.out.println("WebSocket connected: " + connection.getRemoteSocketAddress());
 
-        sendEvent(connection, "AUTH_REQUIRED", "Please authenticate");
+        String requestOrigin = handshake.getFieldValue("Origin");
+        String allowedOrigin = AppConfig.FRONTEND_URL;
+
+        // Reject connections from unauthorized browser origins.
+        if (requestOrigin == null ||
+                !allowedOrigin.equals(requestOrigin)) {
+
+            System.out.println(
+                    "Rejected WebSocket connection from origin: "
+                            + requestOrigin);
+
+            connection.close(1008, "Origin not allowed");
+            return;
+        }
+
+        System.out.println(
+                "WebSocket connected: "
+                        + connection.getRemoteSocketAddress());
+
+        sendEvent(
+                connection,
+                "AUTH_REQUIRED",
+                "Please authenticate");
+    }
+
+    private void sendToAuthenticatedConnections(
+            String userId,
+            ObjectNode event) {
+
+        Set<WebSocket> connections = activeConnections.get(userId);
+
+        if (connections == null) {
+            return;
+        }
+
+        for (WebSocket connection : connections) {
+
+            if (!connection.isOpen()) {
+                continue;
+            }
+
+            String token = connectionTokens.get(connection);
+
+            try {
+                if (token == null || !isSessionValid(token)) {
+                    connection.close(1008, "Session expired or revoked");
+                    continue;
+                }
+
+                connection.send(event.toString());
+
+            } catch (IOException e) {
+                // Fail closed if the authoritative server cannot validate.
+                connection.close(1011, "Session validation unavailable");
+            }
+        }
+    }
+
+    private boolean isSessionValid(String token) throws IOException {
+
+        ObjectNode request = mapper.createObjectNode();
+        request.put("command", "VALIDATE_SESSION");
+        request.put("sessionToken", token);
+
+        JsonNode response = forwardToTcpServer(request);
+
+        return "SUCCESS".equals(
+                response.path("status").asText());
     }
 
     private void handleMarkMessagesRead(
@@ -87,12 +154,7 @@ public class MessageWebSocketServer extends WebSocketServer {
 
         if (senderConnections != null) {
 
-            for (WebSocket senderConnection : senderConnections) {
-
-                if (senderConnection.isOpen()) {
-                    senderConnection.send(readEvent.toString());
-                }
-            }
+            sendToAuthenticatedConnections(otherUserId, readEvent);
         }
 
         // Confirm to the reader.
@@ -248,12 +310,7 @@ public class MessageWebSocketServer extends WebSocketServer {
 
         if (receiverConnections != null) {
 
-            for (WebSocket receiverConnection : receiverConnections) {
-
-                if (receiverConnection.isOpen()) {
-                    receiverConnection.send(newMessageEvent.toString());
-                }
-            }
+            sendToAuthenticatedConnections(receiverId, newMessageEvent);
         }
 
         System.out.println(

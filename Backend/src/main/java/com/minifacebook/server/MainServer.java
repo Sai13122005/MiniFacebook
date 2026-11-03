@@ -1,6 +1,9 @@
 
 package com.minifacebook.server;
 
+import java.security.SecureRandom;
+import java.util.Base64;
+import java.util.concurrent.TimeUnit;
 import com.minifacebook.models.Message;
 import com.minifacebook.services.MessageService;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -12,37 +15,85 @@ import com.minifacebook.models.User;
 import com.minifacebook.protocol.MessageProtocol;
 import com.minifacebook.services.AuthService;
 import com.minifacebook.services.UserService;
-import com.minifacebook.storage.JsonStorage;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import com.minifacebook.models.Post;
 import com.minifacebook.services.PostService;
 import com.minifacebook.models.Notification;
 import com.minifacebook.services.NotificationService;
+import com.minifacebook.config.TransactionManager;
+import com.minifacebook.repositories.SessionRepository;
+import com.minifacebook.config.DatabaseConfig;
+import com.minifacebook.config.AppConfig;
+import com.minifacebook.repositories.UserRepository;
+import com.minifacebook.repositories.PostRepository;
+import com.minifacebook.repositories.CommentRepository;
+import com.minifacebook.repositories.MessageRepository;
+import com.minifacebook.repositories.NotificationRepository;
+import javax.sql.DataSource;
+import java.time.Duration;
+import java.sql.SQLException;
+import java.time.Instant;
 
 public class MainServer {
 
-    private static final int PORT = 5000;
+    private static final int PORT = AppConfig.TCP_PORT;
 
     private static final ExecutorService threadPool = Executors.newFixedThreadPool(10);
 
     private static final ObjectMapper mapper = new ObjectMapper();
-    private static final MessageService messageService = new MessageService(new JsonStorage());
-    private static final AuthService authService = new AuthService(new JsonStorage());
-    private static final CommentService commentService = new CommentService(new JsonStorage());
-    private static final UserService userService = new UserService(new JsonStorage());
-    private static final PostService postService = new PostService(new JsonStorage());
-    private static final NotificationService notificationService = new NotificationService(new JsonStorage());
+    // One shared PostgreSQL connection pool.
+    private static final DataSource dataSource = DatabaseConfig.getDataSource();
+
+    // Repositories.
+    private static final UserRepository userRepository = new UserRepository(dataSource);
+
+    private static final PostRepository postRepository = new PostRepository(dataSource);
+
+    private static final CommentRepository commentRepository = new CommentRepository(dataSource);
+
+    private static final MessageRepository messageRepository = new MessageRepository(dataSource);
+
+    private static final NotificationRepository notificationRepository = new NotificationRepository(dataSource);
+
+    private static final SessionRepository sessionRepository = new SessionRepository(dataSource);
+
+    // Services now use PostgreSQL.
+    private static final AuthService authService = new AuthService(userRepository);
+
+    private static final TransactionManager transactionManager = new TransactionManager(dataSource);
+
+    private static final UserService userService = new UserService(
+            userRepository,
+            transactionManager,
+            notificationRepository);
+
+    private static final PostService postService = new PostService(
+            postRepository,
+            userRepository,
+            transactionManager,
+            notificationRepository);
+
+    private static final CommentService commentService = new CommentService(
+            commentRepository,
+            postRepository,
+            transactionManager,
+            notificationRepository);
+
+    private static final MessageService messageService = new MessageService(messageRepository);
+
+    private static final NotificationService notificationService = new NotificationService(notificationRepository);
+
+    // Session lifetime.
+    private static final Duration SESSION_LIFETIME = Duration.ofDays(30);
     // Maps session tokens to authenticated user IDs
-    private static final ConcurrentHashMap<String, String> sessions = new ConcurrentHashMap<>();
 
     public static void main(String[] args) {
-
+        registerShutdownHook();
         System.out.println("MiniFacebook TCP Server starting...");
 
         try (ServerSocket serverSocket = new ServerSocket(PORT)) {
@@ -65,6 +116,19 @@ public class MainServer {
         } finally {
             threadPool.shutdown();
         }
+    }
+
+    private static final SecureRandom SECURE_RANDOM = new SecureRandom();
+
+    private static String generateSessionToken() {
+
+        byte[] tokenBytes = new byte[32];
+
+        SECURE_RANDOM.nextBytes(tokenBytes);
+
+        return Base64.getUrlEncoder()
+                .withoutPadding()
+                .encodeToString(tokenBytes);
     }
 
     private static void handleClient(Socket socket) {
@@ -93,6 +157,62 @@ public class MainServer {
         System.out.println("Client handler completed.");
     }
 
+    private static void registerShutdownHook() {
+
+        Runtime.getRuntime().addShutdownHook(
+                new Thread(() -> {
+
+                    System.out.println(
+                            "MiniFacebook TCP Server shutting down...");
+
+                    // Stop accepting new client tasks.
+                    threadPool.shutdown();
+
+                    try {
+                        // Allow existing client handlers to finish.
+                        if (!threadPool.awaitTermination(
+                                10, TimeUnit.SECONDS)) {
+
+                            System.out.println(
+                                    "Forcing remaining client tasks to stop...");
+
+                            threadPool.shutdownNow();
+
+                            threadPool.awaitTermination(
+                                    5, TimeUnit.SECONDS);
+                        }
+
+                    } catch (InterruptedException e) {
+
+                        threadPool.shutdownNow();
+                        Thread.currentThread().interrupt();
+
+                    } finally {
+
+                        // Close the shared HikariCP connection pool.
+                        DatabaseConfig.close();
+
+                        System.out.println(
+                                "Database connection pool closed.");
+
+                        System.out.println(
+                                "MiniFacebook shutdown completed.");
+                    }
+
+                }, "minifacebook-shutdown"));
+    }
+
+    private static String getUserIdForToken(String token) {
+
+        try {
+            return sessionRepository.findUserIdByToken(token);
+
+        } catch (SQLException e) {
+            throw new IllegalStateException(
+                    "Unable to validate session", e);
+        }
+    }
+
     private static ObjectNode processRequest(JsonNode request) {
 
         ObjectNode response = mapper.createObjectNode();
@@ -100,6 +220,29 @@ public class MainServer {
         try {
 
             String command = request.path("command").asText();
+            if ("HEALTH_CHECK".equals(command)) {
+
+                try (var connection = dataSource.getConnection();
+                        var statement = connection.createStatement();
+                        var result = statement.executeQuery("SELECT 1")) {
+
+                    if (result.next() && result.getInt(1) == 1) {
+                        response.put("status", "UP");
+                        response.put("message", "PostgreSQL is reachable");
+                    } else {
+                        response.put("status", "ERROR");
+                        response.put("message", "Database health check failed");
+                    }
+
+                } catch (SQLException e) {
+                    e.printStackTrace();
+
+                    response.put("status", "ERROR");
+                    response.put("message", "Database unavailable");
+                }
+
+                return response;
+            }
 
             switch (command.toUpperCase()) {
 
@@ -129,9 +272,12 @@ public class MainServer {
 
                     User user = authService.login(username, password);
 
-                    String token = UUID.randomUUID().toString();
+                    String token = generateSessionToken();
 
-                    sessions.put(token, user.getUserId());
+                    sessionRepository.createSession(
+                            user.getUserId(),
+                            token,
+                            Instant.now().plus(SESSION_LIFETIME));
 
                     response.put("status", "SUCCESS");
                     response.put("message", "Login successful");
@@ -143,12 +289,11 @@ public class MainServer {
 
                     break;
                 }
-
                 case "LOGOUT": {
 
                     String token = request.path("sessionToken").asText();
 
-                    if (sessions.remove(token) != null) {
+                    if (sessionRepository.revokeSession(token)) {
                         response.put("status", "SUCCESS");
                         response.put("message", "Logged out successfully");
                     } else {
@@ -162,7 +307,7 @@ public class MainServer {
                 case "GET_USERS": {
 
                     String token = request.path("sessionToken").asText();
-                    String currentUserId = sessions.get(token);
+                    String currentUserId = getUserIdForToken(token);
 
                     if (currentUserId == null) {
                         throw new IllegalArgumentException("Please login first");
@@ -203,7 +348,7 @@ public class MainServer {
                 case "GET_MY_PROFILE": {
 
                     String token = request.path("sessionToken").asText();
-                    String currentUserId = sessions.get(token);
+                    String currentUserId = getUserIdForToken(token);
 
                     if (currentUserId == null) {
                         throw new IllegalArgumentException("Please login first");
@@ -227,7 +372,7 @@ public class MainServer {
                 case "GET_MY_POSTS": {
 
                     String token = request.path("sessionToken").asText();
-                    String currentUserId = sessions.get(token);
+                    String currentUserId = getUserIdForToken(token);
 
                     if (currentUserId == null) {
                         throw new IllegalArgumentException("Please login first");
@@ -264,7 +409,7 @@ public class MainServer {
                 case "UPDATE_PROFILE": {
 
                     String token = request.path("sessionToken").asText();
-                    String currentUserId = sessions.get(token);
+                    String currentUserId = getUserIdForToken(token);
 
                     if (currentUserId == null) {
                         throw new IllegalArgumentException("Please login first");
@@ -298,7 +443,7 @@ public class MainServer {
                 case "FOLLOW_USER": {
 
                     String token = request.path("sessionToken").asText();
-                    String currentUserId = sessions.get(token);
+                    String currentUserId = getUserIdForToken(token);
 
                     if (currentUserId == null) {
                         throw new IllegalArgumentException("Please login first");
@@ -306,16 +451,14 @@ public class MainServer {
 
                     String targetUserId = request.path("targetUserId").asText();
 
-                    userService.followUser(currentUserId, targetUserId);
-                    String actorName = userService.getUserById(currentUserId).getUsername();
+                    String actorName = userService
+                            .getUserById(currentUserId)
+                            .getUsername();
 
-                    notificationService.createNotification(
+                    userService.followUserWithNotification(
+                            currentUserId,
                             targetUserId,
-                            currentUserId,
-                            "FOLLOW",
-                            currentUserId,
-                            actorName + " started following you");
-
+                            actorName);
                     response.put("status", "SUCCESS");
                     response.put("message", "User followed successfully");
 
@@ -325,7 +468,7 @@ public class MainServer {
                 case "UNFOLLOW_USER": {
 
                     String token = request.path("sessionToken").asText();
-                    String currentUserId = sessions.get(token);
+                    String currentUserId = getUserIdForToken(token);
 
                     if (currentUserId == null) {
                         throw new IllegalArgumentException("Please login first");
@@ -344,7 +487,7 @@ public class MainServer {
                 case "CREATE_POST": {
 
                     String token = request.path("sessionToken").asText();
-                    String currentUserId = sessions.get(token);
+                    String currentUserId = getUserIdForToken(token);
 
                     if (currentUserId == null) {
                         throw new IllegalArgumentException("Please login first");
@@ -368,7 +511,7 @@ public class MainServer {
                 case "GET_FEED": {
 
                     String token = request.path("sessionToken").asText();
-                    String currentUserId = sessions.get(token);
+                    String currentUserId = getUserIdForToken(token);
                     if (currentUserId == null) {
                         throw new IllegalArgumentException("Please login first");
                     }
@@ -401,7 +544,7 @@ public class MainServer {
                 case "LIKE_POST": {
 
                     String token = request.path("sessionToken").asText();
-                    String currentUserId = sessions.get(token);
+                    String currentUserId = getUserIdForToken(token);
 
                     if (currentUserId == null) {
                         throw new IllegalArgumentException("Please login first");
@@ -413,14 +556,14 @@ public class MainServer {
 
                     postService.likePost(currentUserId, postId);
 
-                    String actorName = userService.getUserById(currentUserId).getUsername();
+                    String actorName = userService
+                            .getUserById(currentUserId)
+                            .getUsername();
 
-                    notificationService.createNotification(
-                            post.getAuthorId(),
+                    postService.likePostWithNotification(
                             currentUserId,
-                            "LIKE",
                             postId,
-                            actorName + " liked your post");
+                            actorName);
 
                     response.put("status", "SUCCESS");
                     response.put("message", "Post liked successfully");
@@ -431,7 +574,7 @@ public class MainServer {
                 case "UNLIKE_POST": {
 
                     String token = request.path("sessionToken").asText();
-                    String currentUserId = sessions.get(token);
+                    String currentUserId = getUserIdForToken(token);
 
                     if (currentUserId == null) {
                         throw new IllegalArgumentException("Please login first");
@@ -450,7 +593,7 @@ public class MainServer {
                 case "ADD_COMMENT": {
 
                     String token = request.path("sessionToken").asText();
-                    String currentUserId = sessions.get(token);
+                    String currentUserId = getUserIdForToken(token);
 
                     if (currentUserId == null) {
                         throw new IllegalArgumentException("Please login first");
@@ -458,22 +601,15 @@ public class MainServer {
 
                     String postId = request.path("postId").asText();
                     String content = request.path("content").asText();
+                    String actorName = userService
+                            .getUserById(currentUserId)
+                            .getUsername();
 
-                    Comment comment = commentService.addComment(
-                            postId, currentUserId, content);
-                    Post post = postService.getPostById(postId);
-
-                    String actorName = userService.getUserById(currentUserId).getUsername();
-
-                    notificationService.createNotification(
-                            post.getAuthorId(),
-                            currentUserId,
-                            "COMMENT",
+                    Comment comment = commentService.addCommentWithNotification(
                             postId,
-                            actorName + " commented on your post");
-                    response.put("status", "SUCCESS");
-                    response.put("message", "Comment added successfully");
-
+                            currentUserId,
+                            content,
+                            actorName);
                     ObjectNode commentData = response.putObject("comment");
 
                     commentData.put("commentId", comment.getCommentId());
@@ -489,7 +625,7 @@ public class MainServer {
                 case "GET_COMMENTS": {
 
                     String token = request.path("sessionToken").asText();
-                    String currentUserId = sessions.get(token);
+                    String currentUserId = getUserIdForToken(token);
 
                     if (currentUserId == null) {
                         throw new IllegalArgumentException("Please login first");
@@ -524,7 +660,7 @@ public class MainServer {
                 case "UPDATE_POST": {
 
                     String token = request.path("sessionToken").asText();
-                    String currentUserId = sessions.get(token);
+                    String currentUserId = getUserIdForToken(token);
 
                     if (currentUserId == null) {
                         throw new IllegalArgumentException("Please login first");
@@ -551,7 +687,7 @@ public class MainServer {
                 case "DELETE_POST": {
 
                     String token = request.path("sessionToken").asText();
-                    String currentUserId = sessions.get(token);
+                    String currentUserId = getUserIdForToken(token);
 
                     if (currentUserId == null) {
                         throw new IllegalArgumentException("Please login first");
@@ -560,12 +696,9 @@ public class MainServer {
                     String postId = request.path("postId").asText();
 
                     // Verify ownership and delete the post
-                    Post deletedPost = postService.deletePost(
-                            postId, currentUserId);
-
-                    // Delete all comments associated with this post
-                    commentService.deleteCommentsByPostId(
-                            deletedPost.getPostId());
+                    postService.deletePostTransactionally(
+                            postId,
+                            currentUserId);
 
                     response.put("status", "SUCCESS");
                     response.put("message",
@@ -577,7 +710,7 @@ public class MainServer {
                 case "UPDATE_COMMENT": {
 
                     String token = request.path("sessionToken").asText();
-                    String currentUserId = sessions.get(token);
+                    String currentUserId = getUserIdForToken(token);
 
                     if (currentUserId == null) {
                         throw new IllegalArgumentException("Please login first");
@@ -608,7 +741,7 @@ public class MainServer {
                 case "DELETE_COMMENT": {
 
                     String token = request.path("sessionToken").asText();
-                    String currentUserId = sessions.get(token);
+                    String currentUserId = getUserIdForToken(token);
 
                     if (currentUserId == null) {
                         throw new IllegalArgumentException("Please login first");
@@ -630,7 +763,7 @@ public class MainServer {
                 case "GET_NOTIFICATIONS": {
 
                     String token = request.path("sessionToken").asText();
-                    String currentUserId = sessions.get(token);
+                    String currentUserId = getUserIdForToken(token);
 
                     if (currentUserId == null) {
                         throw new IllegalArgumentException("Please login first");
@@ -681,7 +814,7 @@ public class MainServer {
                 case "MARK_NOTIFICATION_READ": {
 
                     String token = request.path("sessionToken").asText();
-                    String currentUserId = sessions.get(token);
+                    String currentUserId = getUserIdForToken(token);
 
                     if (currentUserId == null) {
                         throw new IllegalArgumentException("Please login first");
@@ -699,7 +832,7 @@ public class MainServer {
                 }
                 case "VALIDATE_SESSION": {
                     String token = request.path("sessionToken").asText();
-                    String userId = sessions.get(token);
+                    String userId = getUserIdForToken(token);
 
                     if (userId == null) {
                         throw new IllegalArgumentException("Invalid session");
@@ -713,7 +846,7 @@ public class MainServer {
                 case "SEND_MESSAGE": {
 
                     String token = request.path("sessionToken").asText();
-                    String senderId = sessions.get(token);
+                    String senderId = getUserIdForToken(token);
 
                     if (senderId == null) {
                         throw new IllegalArgumentException("Please login first");
@@ -748,7 +881,7 @@ public class MainServer {
                 case "GET_CONVERSATIONS": {
 
                     String token = request.path("sessionToken").asText();
-                    String currentUserId = sessions.get(token);
+                    String currentUserId = getUserIdForToken(token);
 
                     if (currentUserId == null) {
                         throw new IllegalArgumentException("Please login first");
@@ -782,7 +915,7 @@ public class MainServer {
                 case "GET_CONVERSATION": {
 
                     String token = request.path("sessionToken").asText();
-                    String currentUserId = sessions.get(token);
+                    String currentUserId = getUserIdForToken(token);
 
                     if (currentUserId == null) {
                         throw new IllegalArgumentException("Please login first");
@@ -819,7 +952,7 @@ public class MainServer {
                 case "MARK_MESSAGE_READ": {
 
                     String token = request.path("sessionToken").asText();
-                    String currentUserId = sessions.get(token);
+                    String currentUserId = getUserIdForToken(token);
 
                     if (currentUserId == null) {
                         throw new IllegalArgumentException("Please login first");

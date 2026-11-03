@@ -1,5 +1,5 @@
 
-const WS_URL = "ws://localhost:8081";
+const WS_URL = import.meta.env.VITE_WS_URL;
 
 export function connectMessageSocket({
     onMessage,

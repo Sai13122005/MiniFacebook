@@ -1,9 +1,9 @@
 
-const API_URL = "http://localhost:8080/api/request";
+const API_URL = import.meta.env.VITE_API_URL;
 
 export async function sendRequest(command, data = {}) {
     try {
-        const response = await fetch(API_URL, {
+       const response = await fetch(`${API_URL}/api/request`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"

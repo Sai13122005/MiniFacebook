@@ -26,7 +26,33 @@
             <artifactId>jackson-databind</artifactId>
             <version>2.18.2</version>
         </dependency>
+        <!-- PostgreSQL JDBC Driver -->
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>42.7.7</version>
+        </dependency>
 
+        <!-- HikariCP: Database connection pool -->
+        <dependency>
+            <groupId>com.zaxxer</groupId>
+            <artifactId>HikariCP</artifactId>
+            <version>6.3.0</version>
+        </dependency>
+
+        <!-- Flyway: Database schema migration -->
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-core</artifactId>
+            <version>11.10.0</version>
+        </dependency>
+
+        <!-- PostgreSQL support for Flyway 11 -->
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-database-postgresql</artifactId>
+            <version>11.10.0</version>
+        </dependency>
         <!-- Password hashing -->
         <dependency>
             <groupId>org.mindrot</groupId>
